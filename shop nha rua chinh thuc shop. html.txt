@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Nhà Rùa - Quản lý Sản phẩm</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; background: linear-gradient(45deg, #ff9a9e, #fad0c4, #fad0c4, #ffdde1); }
+        .product { border: 2px solid #ff4081; padding: 20px; margin: 10px; display: inline-block; background: #fff5f8; border-radius: 10px; box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1); }
+        button { padding: 10px; margin: 5px; cursor: pointer; background: #ff4081; color: white; border: none; border-radius: 5px; }
+        input { margin: 5px; padding: 5px; border: 1px solid #ff4081; border-radius: 5px; }
+        h1 { color: #ff4081; text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); }
+    </style>
+</head>
+<body>
+    <h1>Shop Nhà Rùa</h1>
+    <div>
+        <input type="text" id="productName" placeholder="Tên sản phẩm">
+        <input type="number" id="productPrice" placeholder="Giá sản phẩm">
+        <button onclick="addProduct()">Thêm sản phẩm</button>
+    </div>
+    <div id="productList"></div>
+
+    <script>
+        const phoneNumber = "0364258827";
+        const zaloNumber = "0364258827";
+        const messengerUsername = "shopnharua";
+        const sellerEmail = "qt1942k@gmail.com";
+        const shopInfo = "https://shopnharua.my.canva.site/";
+
+        let products = [
+            { name: "Ảnh in mực không dán", price: "1000" },
+            { name: "Nhãn dán được", price: "1000" },
+            { name: "Nhãn dán k.o dán được", price: "1000" },
+            { name: "Ảnh in nhiệt dán được", price: "1000" }
+        ];
+
+        let shippingMethods = [
+            { name: "Rùa Siêu Tốc", type: "Người bán tự vận chuyển" }
+        ];
+
+        let employees = [
+            { name: "Châu", role: "Người vận chuyển" },
+            { name: "Tôm", role: "Người vận chuyển" }
+        ];
+
+        function renderProducts() {
+            const productList = document.getElementById("productList");
+            productList.innerHTML = "";
+            products.forEach((product, index) => {
+                productList.innerHTML += `
+                    <div class='product'>
+                        <h2><input type='text' value='${product.name}' onchange='editProductName(${index}, this.value)'></h2>
+                        <p>Giá: <input type='number' value='${product.price}' onchange='editProductPrice(${index}, this.value)'> VNĐ</p>
+                        <button onclick="orderViaZalo('${product.name}', '${product.price}')">Đặt qua Zalo</button>
+                        <button onclick="orderViaMessenger('${product.name}', '${product.price}')">Đặt qua Messenger</button>
+                        <button onclick="orderViaSMS('${product.name}', '${product.price}')">Đặt qua SMS</button>
+                        <button onclick='deleteProduct(${index})'>Xóa</button>
+                    </div>`;
+            });
+        }
+
+        function addProduct() {
+            const name = document.getElementById("productName").value;
+            const price = document.getElementById("productPrice").value;
+            if (name && price) {
+                products.push({ name, price });
+                renderProducts();
+            }
+        }
+
+        function deleteProduct(index) {
+            products.splice(index, 1);
+            renderProducts();
+        }
+
+        function editProductName(index, newName) {
+            products[index].name = newName;
+        }
+
+        function editProductPrice(index, newPrice) {
+            products[index].price = newPrice;
+        }
+
+        function orderViaZalo(product, price) {
+            window.open(`https://zalo.me/${zaloNumber}?text=Đặt hàng: ${product} - Giá: ${price} VNĐ`, '_blank');
+        }
+        
+        function orderViaMessenger(product, price) {
+            window.open(`https://m.me/${messengerUsername}?text=Đặt hàng: ${product} - Giá: ${price} VNĐ`, '_blank');
+        }
+        
+        function orderViaSMS(product, price) {
+            window.location.href = `sms:${phoneNumber}?body=Đặt hàng: ${product} - Giá: ${price} VNĐ`;
+        }
+
+        renderProducts();
+    </script>
+</body>
+</html>
